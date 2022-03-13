@@ -13,7 +13,7 @@
         ScrollViewer.VerticalScrollBarVisibility="Hidden" 
         FontFamily="Verdana" 
         FontSize="24" 
-        FontWeight="Bold">
+        FontWeight="Bold" Loaded="Window_Loaded">
     <Grid x:Name="MainGrid" Margin="16,20,16,10">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -40,14 +40,14 @@
                  VerticalAlignment="Top" 
                  TextAlignment="Center"
                  Width = "155" 
-                 Margin="0,35,0,0"/>
+                 Margin="0,35,0,0" Cursor="IBeam" KeyUp="LValue_KeyUp"/>
 
         <TextBox x:Name="RValue" Grid.Column="2" Grid.Row="1" 
                  HorizontalAlignment="Center" 
                  VerticalAlignment="Top"
                  TextAlignment="Center"
                  Width = "155" 
-                 Margin="0,35,0,0"/>
+                 Margin="0,35,0,0" KeyUp="RValue_KeyUp" Cursor="IBeam"/>
 
     </Grid>
 
