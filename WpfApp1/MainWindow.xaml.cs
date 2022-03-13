@@ -60,12 +60,6 @@ namespace WpfApp1
             }
         }
 
-        private void RValue_KeyDown(object sender, KeyEventArgs e)
-        {
-            LValue.Text = String.Empty;
-            ConvertValue();
-        }
-
         private void LValue_KeyUp(object sender, KeyEventArgs e)
         {
             RValue.Text = String.Empty;
