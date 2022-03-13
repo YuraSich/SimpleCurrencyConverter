@@ -13,17 +13,16 @@
         ScrollViewer.VerticalScrollBarVisibility="Hidden" 
         FontFamily="Verdana" 
         FontSize="24" 
-        FontWeight="Bold" Loaded="Window_Loaded">
+        FontWeight="Bold" 
+        Loaded="Window_Loaded">
     <Grid x:Name="MainGrid" Margin="16,20,16,10">
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition  Width = "0.6*"/>
+            <ColumnDefinition  Width = "0.3*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="TextLabel" Grid.Row="0" Grid.Column="0" 
@@ -31,24 +30,60 @@
                    Text="Currency Converter" 
                    HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
 
+        <TabControl x:Name="TabControl" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Grid.Row="2" Grid.Column="1" Background="Transparent" BorderThickness="0" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Frame Source="LoadingPage.xaml" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="80"></Frame>
+            </TabItem>
+            <TabItem>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition  Width = "0.3*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="LButton" Grid.Column="0" Grid.Row="1" Margin="20 0 20 20" Click="LButton_Click"/>
+                    <Button x:Name="RButton" Grid.Column="2" Grid.Row="1" Margin="20 0 20 20"/>
 
-        <Button x:Name="LButton" Grid.Column="0" Grid.Row="2"/>
-        <Button x:Name="RButton" Grid.Column="3" Grid.Row="2"/>
+                    <TextBox x:Name="LValue" Grid.Row="0" 
+                     HorizontalAlignment="Center" 
+                     VerticalAlignment="Top" 
+                     TextAlignment="Center"
+                     Width = "Auto" 
+                     MinWidth="120"
+                     Margin="0,55,0,0" Cursor="IBeam" KeyUp="LValue_KeyUp"/>
 
-        <TextBox x:Name="LValue" Grid.Column="0" Grid.Row="1" 
-                 HorizontalAlignment="Center" 
-                 VerticalAlignment="Top" 
-                 TextAlignment="Center"
-                 Width = "155" 
-                 Margin="0,35,0,0" Cursor="IBeam" KeyUp="LValue_KeyUp"/>
+                    <TextBox x:Name="RValue" Grid.Column="2" Grid.Row="0" 
+                     HorizontalAlignment="Center" 
+                     VerticalAlignment="Top"
+                     TextAlignment="Center"
+                     Width = "Auto" 
+                     MinWidth="120"
+                     Margin="0,55,0,0" KeyUp="RValue_KeyUp" Cursor="IBeam"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="PickValute">
+                <Frame Source="/ValutePickingPage.xaml" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" MinHeight="230" Height="227"/>
+            </TabItem>
+        </TabControl>
 
-        <TextBox x:Name="RValue" Grid.Column="2" Grid.Row="1" 
-                 HorizontalAlignment="Center" 
-                 VerticalAlignment="Top"
-                 TextAlignment="Center"
-                 Width = "155" 
-                 Margin="0,35,0,0" KeyUp="RValue_KeyUp" Cursor="IBeam"/>
+
+
 
     </Grid>
+
 
 </Window>

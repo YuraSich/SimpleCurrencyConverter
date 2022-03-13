@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfApp1
 {
@@ -22,20 +24,51 @@ namespace WpfApp1
     {
         RateData _data;
         List<string> valutes;
+        DispatcherTimer timer;
+        ValutePickingPage vpp;
+        ObservableCollection<Button> buttons;
         public MainWindow()
         {
             InitializeComponent();
+
+            vpp = new ValutePickingPage();
+            buttons = new ObservableCollection<Button>();
+
+
+            try
+            {
+                _data = new RateData(@"https://www.cbr-xml-daily.ru/daily_json.js");
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+                this.Close();
+                return;
+            }
+
+
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Interval = new TimeSpan(0, 0, 2);
+            timer.Start();
+
+            valutes = _data.Rates.Valute.Keys.ToList();
+            foreach (var v in valutes)
+            {
+                Button button = new Button();
+                button.Content = v;
+                buttons.Add(button);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _data = new RateData(@"https://www.cbr-xml-daily.ru/daily_json.js");
-            valutes = _data.Rates.Valute.Keys.ToList();
+            
             LButton.Content = valutes[0];
             RButton.Content = valutes[1];
             LValue.Text = "";
             RValue.Text = "";
-            ConvertValue();
+
         }
 
         private void ConvertValue()
@@ -60,6 +93,13 @@ namespace WpfApp1
             }
         }
 
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            TabControl.SelectedIndex = 1;
+            timer.Stop();
+
+        }
+
         private void LValue_KeyUp(object sender, KeyEventArgs e)
         {
             RValue.Text = String.Empty;
@@ -70,6 +110,11 @@ namespace WpfApp1
         {
             LValue.Text = String.Empty;
             ConvertValue();
+        }
+
+        private void LButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabControl.SelectedIndex = 2;
         }
     }
 }

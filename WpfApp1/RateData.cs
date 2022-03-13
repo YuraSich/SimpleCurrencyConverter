@@ -83,7 +83,8 @@ namespace WpfApp1
         {
             using (WebClient client = new WebClient())
             {
-                rates = Rates.FromJson(client.DownloadString(url));
+                string s = client.DownloadString(url);
+                rates = Rates.FromJson(s);
             }
         }
 
