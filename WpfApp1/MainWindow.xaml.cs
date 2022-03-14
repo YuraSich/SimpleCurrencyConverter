@@ -64,11 +64,20 @@ namespace WpfApp1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             
-            LButton.Content = valutes[0];
-            RButton.Content = valutes[1];
+            LValute.ItemsSource = valutes;
+            RValute.ItemsSource = valutes;
+            LValute.SelectedIndex = 0;
+            RValute.SelectedIndex = 1;
             LValue.Text = "";
             RValue.Text = "";
+            SetValuteNames();
+        }
 
+        private void SetValuteNames()
+        {
+            if(LValute.SelectedItem == null || RValute.SelectedItem == null) return;
+            LValuteName.Content = _data.Rates.Valute[LValute.SelectedItem.ToString()].Name;
+            RValuteName.Content = _data.Rates.Valute[RValute.SelectedItem.ToString()].Name;
         }
 
         private void ConvertValue()
@@ -80,8 +89,8 @@ namespace WpfApp1
             {
                 return;
             }
-            double v1 = _data.Rates.Valute[RButton.Content.ToString()].Value * _data.Rates.Valute[LButton.Content.ToString()].Nominal;
-            double v2 = _data.Rates.Valute[LButton.Content.ToString()].Value * _data.Rates.Valute[RButton.Content.ToString()].Nominal;
+            double v1 = _data.Rates.Valute[RValute.SelectedItem.ToString()].Value * _data.Rates.Valute[LValute.SelectedItem.ToString()].Nominal;
+            double v2 = _data.Rates.Valute[LValute.SelectedItem.ToString()].Value * _data.Rates.Valute[RValute.SelectedItem.ToString()].Nominal;
             double cur = LValue.Text == String.Empty ? double.Parse(RValue.Text) : double.Parse(LValue.Text);
             if (LValue.Text == String.Empty)
             {
@@ -112,9 +121,18 @@ namespace WpfApp1
             ConvertValue();
         }
 
-        private void LButton_Click(object sender, RoutedEventArgs e)
+        private void LValute_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TabControl.SelectedIndex = 2;
+            RValue.Text = String.Empty;
+            ConvertValue();
+            SetValuteNames();
+        }
+
+        private void RValute_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LValue.Text = String.Empty;
+            ConvertValue();
+            SetValuteNames();
         }
     }
 }

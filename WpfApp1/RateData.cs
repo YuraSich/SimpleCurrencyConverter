@@ -78,11 +78,12 @@ namespace WpfApp1
 
     internal class RateData
     {
-        private Rates rates;
+        private readonly Rates rates;
         public RateData(string url)
         {
             using (WebClient client = new WebClient())
             {
+                client.Encoding = Encoding.UTF8;
                 string s = client.DownloadString(url);
                 rates = Rates.FromJson(s);
             }
